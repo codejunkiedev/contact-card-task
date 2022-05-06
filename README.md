@@ -1,4 +1,4 @@
-# Humain Senior Software Engineer Applicant Assignment
+# Humain  Assignment
 
 This project is a template for the assignment.
 To run the project
