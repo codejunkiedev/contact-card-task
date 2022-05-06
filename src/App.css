@@ -1,0 +1,10 @@
+body {
+  background: #182a4d;
+}
+
+.App {
+}
+
+.App.newHardware {
+  transform: scale(0.9);
+}

@@ -1,0 +1,8 @@
+{
+    "name": "@state/stores",
+    "version": "1.0.0",
+    "dependencies": {
+      "immer": ">=8.0.1"
+    }
+  }
+  
