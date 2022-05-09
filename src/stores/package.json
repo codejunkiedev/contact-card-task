@@ -1,8 +1,9 @@
 {
-    "name": "@state/stores",
-    "version": "1.0.0",
-    "dependencies": {
-      "immer": ">=8.0.1"
-    }
+  "name": "@state/stores",
+  "version": "1.0.0",
+  "dependencies": {
+    "immer": ">=8.0.1",
+    "react-gesture-responder": "^2.1.0",
+    "react-grid-dnd": "^2.1.2"
   }
-  
+}

@@ -1,13 +1,39 @@
-.contact-list {
+.grid-item {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 }
-.grid-item{
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-    box-sizing: border-box;
+.contact-card-main-row {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0rem 1rem;
+  box-sizing: border-box;
 }
-.my_com:active:hover{
-    transform: rotate(5deg);
-    transition: 300ms ease-in-out all;
+.contact-card-top-row {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.contact-card-main-row-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.contact-card-main-row-mob {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: gray;
+}
 
+.contact-card {
+  cursor: pointer;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  background-color: white;
+  padding: 0.6rem;
+}
+.contact-card:active:hover {
+  transform: rotate(5deg);
+  transition: 300ms ease-in-out all;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react"
 import { useImmer } from "@state/stores/StoreUtils"
-
+import { swap as swapFunc } from "react-grid-dnd"
 import contact1 from "./assets/contact_01.png"
 import contact2 from "./assets/contact_02.png"
 import contact3 from "./assets/contact_03.png"
@@ -95,9 +95,13 @@ function createStore() {
 
   function Provider({ children }: { children: React.ReactNode }) {
     const [state, set] = useImmer<IState>(initialState)
-
-    const swap = (fromIndex: number, toIndex: number) => {}
-    const toggleFavourite = (index: number) => {}
+    const swap = (fromIndex: number, toIndex: number) => {
+      const newContacts = swapFunc(state.contacts, fromIndex, toIndex)
+      set((oldState) => (oldState.contacts = newContacts))
+    }
+    const toggleFavourite = (index: number) => {
+      set((oldState) => (oldState.contacts[index].favourite = !oldState.contacts[index].favourite))
+    }
 
     const contextObject: IPncStore = {
       ...state,
