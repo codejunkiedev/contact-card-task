@@ -100,7 +100,8 @@ function createStore() {
       set((oldState) => (oldState.contacts = newContacts))
     }
     const toggleFavourite = (index: number) => {
-      set((oldState) => (oldState.contacts[index].favourite = !oldState.contacts[index].favourite))
+      const contactIndex = state.contacts.findIndex((contact) => contact.index === index)
+      set((oldState) => (oldState.contacts[contactIndex].favourite = !oldState.contacts[contactIndex].favourite))
     }
 
     const contextObject: IPncStore = {
