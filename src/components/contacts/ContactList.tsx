@@ -1,9 +1,7 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
+import React, { useRef, useState } from "react"
 import "./contactList.css"
 import ContactsStore from "@state/stores/ContactsStore"
-import { GridContextProvider, GridDropZone, GridItem, swap } from "react-grid-dnd"
 import Contact from "./contact/Contact"
-import useMediaQuery from "@mui/material/useMediaQuery"
 
 interface IContactList {
   className?: string
@@ -11,37 +9,89 @@ interface IContactList {
 
 const ContactList: React.FunctionComponent<IContactList> = (props) => {
   const contactsStore = ContactsStore.useStore()
-  const totalContacts = contactsStore.contacts.length
-  const big = useMediaQuery("(min-width:1000px)")
-  const md = useMediaQuery("(min-width:600px)")
+  const [list, setList] = useState(contactsStore.contacts)
+  const [dragging, setDragging] = useState(false)
+  const dragItem = useRef<{ itemI: number } | null>(null)
+  const dragNode = useRef<HTMLDivElement | null>(null)
 
-  function onChange(sourceId: unknown, sourceIndex: number, targetIndex: number, targetId: unknown) {
-    contactsStore.swap(sourceIndex, targetIndex)
+  const handleDragStart = (e: React.DragEvent, params: { itemI: number }) => {
+    dragItem.current = params
+    dragNode.current = e.target as HTMLDivElement
+    dragNode?.current?.addEventListener("dragend", handleDragEnd)
+    setTimeout(() => {
+      setDragging(true)
+    }, 0)
+  }
+  const handleDragEnd = () => {
+    setDragging(false)
+    dragNode.current?.removeEventListener("dragend", handleDragEnd)
+    dragItem.current = null
+    dragNode.current = null
+  }
+  const handleDragEnter = (
+    e: React.DragEvent,
+    params: {
+      itemI: number
+    }
+  ) => {
+    const currentItem = dragItem.current
+    if (e.target !== dragNode.current) {
+      setList((oldList) => {
+        let newList = JSON.parse(JSON.stringify(oldList))
+        newList.splice(params.itemI, 0, newList.splice(currentItem?.itemI, 1)[0])
+        dragItem.current = params
+        return newList
+      })
+    }
   }
 
+  const getStyles = (params: { itemI: number }) => {
+    const currentItem = dragItem.current
+    if (currentItem?.itemI === params.itemI) {
+      return "current dnd-item"
+    }
+    return "dnd-item"
+  }
+  const setFavourite = (index: number) => {
+    const contactIndex = list.findIndex((contact) => contact.index === index)
+    let temp_state = [...list]
+
+    let temp_element = { ...temp_state[contactIndex] }
+
+    temp_element.favourite = !temp_element.favourite
+
+    temp_state[contactIndex] = temp_element
+
+    setList(temp_state)
+  }
   return (
-    <GridContextProvider onChange={onChange}>
-      <GridDropZone
-        id="items"
-        boxesPerRow={md ? (big ? 3 : 2) : 1}
-        rowHeight={150}
-        style={{
-          height: md
-            ? big
-              ? `${(totalContacts * 30) / 3}vh`
-              : `${(totalContacts * 35) / 2}vh`
-            : `${totalContacts * 30}vh`
-        }}
-      >
-        {contactsStore.contacts.map((item) => (
-          <GridItem key={item.index}>
-            <div className="grid-item">
-              <Contact index={item.index} isFavourite={item.favourite} name={item.name} mob={item.mob} pic={item.pic} />
-            </div>
-          </GridItem>
-        ))}
-      </GridDropZone>
-    </GridContextProvider>
+    <div className="drag-n-drop">
+      {list.map((item, itemI) => (
+        <div
+          onDragStart={(e) => handleDragStart(e, { itemI })}
+          onDragEnter={
+            dragging
+              ? (e) => {
+                  handleDragEnter(e, { itemI })
+                }
+              : () => {
+                  return null
+                }
+          }
+          className={dragging ? getStyles({ itemI }) : "dnd-item"}
+          draggable
+        >
+          <Contact
+            index={item.index}
+            setFavourite={setFavourite}
+            isFavourite={item.favourite}
+            name={item.name}
+            mob={item.mob}
+            pic={item.pic}
+          />
+        </div>
+      ))}
+    </div>
   )
 }
 

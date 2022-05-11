@@ -1,5 +1,4 @@
-import ContactsStore from "@state/stores/ContactsStore"
-import React, { useState } from "react"
+import React from "react"
 import Avatar from "react-avatar"
 import { AiOutlineStar, AiFillStar } from "react-icons/ai"
 interface IContact {
@@ -8,13 +7,12 @@ interface IContact {
   pic: string
   isFavourite: boolean
   index: number
+  setFavourite: (index: number) => void
 }
-const Contact: React.FC<IContact> = ({ name, mob, pic, isFavourite, index }) => {
-  const { toggleFavourite } = ContactsStore.useStore()
-
+const Contact: React.FC<IContact> = ({ name, mob, pic, setFavourite, isFavourite, index }) => {
   return (
     <div className="contact-card">
-      <div className="contact-card-top-row" onClick={() => toggleFavourite(index)}>
+      <div className="contact-card-top-row" onClick={() => setFavourite(index)}>
         {isFavourite ? <AiFillStar /> : <AiOutlineStar />}
       </div>
       <div className="contact-card-main-row">

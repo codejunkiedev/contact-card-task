@@ -1,4 +1,4 @@
-.grid-item {
+.dnd-item {
   width: 100%;
   height: 100%;
   padding: 10px;
@@ -11,6 +11,18 @@
   align-items: center;
   padding: 0rem 1rem;
   box-sizing: border-box;
+}
+.drag-n-drop {
+  padding: 0.5rem;
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: repeat(auto-fill, 400px);
+  align-items: start;
+}
+.current {
+  visibility: hidden;
 }
 .contact-card-top-row {
   display: flex;
@@ -32,8 +44,4 @@
   box-sizing: border-box;
   background-color: white;
   padding: 0.6rem;
-}
-.contact-card:active:hover {
-  transform: rotate(5deg);
-  transition: 300ms ease-in-out all;
 }
