@@ -1,6 +1,7 @@
 import React from "react"
 import Avatar from "react-avatar"
-import { AiOutlineStar, AiFillStar } from "react-icons/ai"
+import { AiFillStar, AiOutlineStar } from "react-icons/ai"
+
 interface IContact {
   name: string
   mob: string
@@ -9,6 +10,7 @@ interface IContact {
   index: number
   setFavourite: (index: number) => void
 }
+const AvatarB = Avatar as any
 const Contact: React.FC<IContact> = ({ name, mob, pic, setFavourite, isFavourite, index }) => {
   return (
     <div className="contact-card">
@@ -20,7 +22,7 @@ const Contact: React.FC<IContact> = ({ name, mob, pic, setFavourite, isFavourite
           <p className="contact-card-main-row-name">{name}</p>
           <p className="contact-card-main-row-mob">{mob}</p>
         </div>
-        <Avatar src={pic} size="60" round={true} />
+        <AvatarB src={pic} size="60" round={true} />
       </div>
     </div>
   )
